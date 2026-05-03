@@ -90,46 +90,45 @@ export function createApi(getToken: () => string | null) {
       }),
 
     deleteProject: (projectId: string) =>
-      req<{ ok: boolean }>(`/api/projects/${projectId}`, {
+      req<{ ok: boolean }>("/api/projects/" + projectId, {
         method: "DELETE"
       }),
 
     listMembers: (projectId: string) =>
-      req<{ members: Member[] }>(`/api/projects/${projectId}/members`),
+      req<{ members: Member[] }>("/api/projects/" + projectId + "/members"),
 
     addMember: (projectId: string, email: string) =>
-      req<{ ok: boolean }>(`/api/projects/${projectId}/members`, {
+      req<{ ok: boolean }>("/api/projects/" + projectId + "/members", {
         method: "POST",
         body: JSON.stringify({ email })
       }),
 
     removeMember: (projectId: string, userId: string) =>
-      req<{ ok: boolean }>(`/api/projects/${projectId}/members/${userId}`, {
+      req<{ ok: boolean }>("/api/projects/" + projectId + "/members/" + userId, {
         method: "DELETE"
       }),
 
     listTasks: (projectId: string) =>
-      req<{ tasks: Task[] }>(`/api/projects/${projectId}/tasks`),
+      req<{ tasks: Task[] }>("/api/projects/" + projectId + "/tasks"),
 
     createTask: (projectId: string, payload: any) =>
-      req<{ task: Task }>(`/api/projects/${projectId}/tasks`, {
+      req<{ task: Task }>("/api/projects/" + projectId + "/tasks", {
         method: "POST",
         body: JSON.stringify(payload)
       }),
 
     patchTask: (taskId: string, payload: any) =>
-      req<{ task: Task }>(`/api/tasks/${taskId}`, {
+      req<{ task: Task }>("/api/tasks/" + taskId, {
         method: "PATCH",
         body: JSON.stringify(payload)
       }),
 
     deleteTask: (taskId: string) =>
-  req<{ ok: boolean }>(`/api/tasks/${taskId}`, {
-    method: "DELETE"
-  }),
+      req<{ ok: boolean }>("/api/tasks/" + taskId, {
+        method: "DELETE"
+      }),
 
-dashboard: () =>
-  req<{ dashboard: Dashboard }>("/api/dashboard")
+    dashboard: () => req<{ dashboard: Dashboard }>("/api/dashboard")
   };
 }
 ```
