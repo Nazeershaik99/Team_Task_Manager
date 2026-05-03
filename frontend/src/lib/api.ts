@@ -33,7 +33,6 @@ export class ApiError extends Error {
   }
 }
 
-// ✅ Backend URL
 const BASE_URL = "https://teamtaskmanager-production-272c.up.railway.app";
 
 export function createApi(getToken: () => string | null) {
@@ -60,39 +59,8 @@ export function createApi(getToken: () => string | null) {
       data = null;
     }
 
-    function toMessage(payload: any): string {
-      if (!payload) return "";
-
-      const detail = payload.detail ?? payload.error;
-
-      if (typeof detail === "string") return detail;
-
-      if (Array.isArray(detail)) {
-        const parts = detail
-          .map((d) => {
-            if (!d) return "";
-            const where = Array.isArray(d.loc) ? d.loc.join(".") : "";
-            const msg = typeof d.msg === "string" ? d.msg : "";
-            return where && msg ? where + ": " + msg : msg || where;
-          })
-          .filter(Boolean);
-
-        return parts.join(" | ");
-      }
-
-      if (typeof payload.error === "string") return payload.error;
-      if (typeof payload.message === "string") return payload.message;
-
-      try {
-        return JSON.stringify(payload);
-      } catch {
-        return String(payload);
-      }
-    }
-
     if (!res.ok) {
-      const msg = toMessage(data) || "Request failed (" + res.status + ")";
-      throw new ApiError(res.status, msg);
+      throw new ApiError(res.status, data?.detail || "Request failed");
     }
 
     return data as T;
@@ -135,41 +103,24 @@ export function createApi(getToken: () => string | null) {
         body: JSON.stringify({ email })
       }),
 
-    removeMember: (projectId: string, memberUserId: string) =>
-      req<{ ok: boolean }>(`/api/projects/${projectId}/members/${memberUserId}`, {
+    removeMember: (projectId: string, userId: string) =>
+      req<{ ok: boolean }>(`/api/projects/${projectId}/members/${userId}`, {
         method: "DELETE"
       }),
 
     listTasks: (projectId: string) =>
       req<{ tasks: Task[] }>(`/api/projects/${projectId}/tasks`),
 
-    createTask: (
-      projectId: string,
-      payload: {
-        title: string;
-        description: string;
-        dueDate: string;
-        priority: TaskPriority;
-        assignedTo?: string | null;
-      }
-    ) =>
+    createTask: (projectId: string, payload: any) =>
       req<{ task: Task }>(`/api/projects/${projectId}/tasks`, {
         method: "POST",
-        body: JSON.stringify({
-          ...payload,
-          assignedTo: payload.assignedTo || null
-        })
+        body: JSON.stringify(payload)
       }),
 
-    patchTask: (taskId: string, payload: Record<string, any>) =>
+    patchTask: (taskId: string, payload: any) =>
       req<{ task: Task }>(`/api/tasks/${taskId}`, {
         method: "PATCH",
-        body: JSON.stringify({
-          ...payload,
-          ...(payload.assignedTo !== undefined
-            ? { assignedTo: payload.assignedTo || null }
-            : {})
-        })
+        body: JSON.stringify(payload)
       }),
 
     deleteTask: (taskId: string) =>
@@ -179,4 +130,5 @@ export function createApi(getToken: () => string | null) {
 
     dashboard: () => req<{ dashboard: Dashboard }>("/api/dashboard")
   };
-}
+}
+```
