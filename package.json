@@ -1,0 +1,18 @@
+{
+  "name": "team-task-manager",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "start": "node server/index.js"
+  }
+}
+ "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "dev:py": "C:\\\\Users\\\\Asus\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe -m uvicorn backend.app:app --host 0.0.0.0 --port 3000",
+    "start:py": "C:\\\\Users\\\\Asus\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe -m uvicorn backend.app:app --host 0.0.0.0 --port $PORT"
+  }
+}
