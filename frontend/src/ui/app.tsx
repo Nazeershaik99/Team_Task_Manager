@@ -222,7 +222,7 @@ export default function App() {
         <AuthCard
           mode="signup"
           busy={busy}
-          onSubmit={async (email, password, clearInputs, name) => {
+          onSubmit={async (email, password, clearInputs, _name) => {
             setError("");
             setBusy(true);
             try {
