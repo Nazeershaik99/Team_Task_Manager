@@ -1,3 +1,4 @@
+```ts
 export type User = { id: string; name: string; email: string; createdAt: string };
 export type Project = { id: string; name: string; createdAt: string; createdBy: string; myRole: "Admin" | "Member" };
 export type Member = { user: User; role: "Admin" | "Member" };
@@ -32,7 +33,7 @@ export class ApiError extends Error {
   }
 }
 
-
+// ✅ Backend URL
 const BASE_URL = "https://teamtaskmanager-production-272c.up.railway.app";
 
 export function createApi(getToken: () => string | null) {
@@ -48,7 +49,6 @@ export function createApi(getToken: () => string | null) {
       headers.set("authorization", `Bearer ${token}`);
     }
 
-   
     const res = await fetch(BASE_URL + path, { ...init, headers });
 
     const text = await res.text();
@@ -73,7 +73,7 @@ export function createApi(getToken: () => string | null) {
             if (!d) return "";
             const where = Array.isArray(d.loc) ? d.loc.join(".") : "";
             const msg = typeof d.msg === "string" ? d.msg : "";
-            return where && msg ? `${where}: ${msg}` : msg || where;
+            return where && msg ? where + ": " + msg : msg || where;
           })
           .filter(Boolean);
 
@@ -91,7 +91,7 @@ export function createApi(getToken: () => string | null) {
     }
 
     if (!res.ok) {
-      const msg = toMessage(data) || `Request failed (${res.status})`;
+      const msg = toMessage(data) || "Request failed (" + res.status + ")";
       throw new ApiError(res.status, msg);
     }
 
