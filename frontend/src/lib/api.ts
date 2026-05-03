@@ -124,11 +124,12 @@ export function createApi(getToken: () => string | null) {
       }),
 
     deleteTask: (taskId: string) =>
-      req<{ ok: boolean }>(`/api/tasks/${taskId}`, {
-        method: "DELETE"
-      }),
+  req<{ ok: boolean }>(`/api/tasks/${taskId}`, {
+    method: "DELETE"
+  }),
 
-    dashboard: () => req<{ dashboard: Dashboard }>("/api/dashboard")
+dashboard: () =>
+  req<{ dashboard: Dashboard }>("/api/dashboard")
   };
 }
 ```
