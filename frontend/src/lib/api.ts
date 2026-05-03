@@ -179,5 +179,4 @@ export function createApi(getToken: () => string | null) {
 
     dashboard: () => req<{ dashboard: Dashboard }>("/api/dashboard")
   };
-}
-```
+}
