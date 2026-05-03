@@ -1,4 +1,4 @@
-```ts
+
 export type User = { id: string; name: string; email: string; createdAt: string };
 export type Project = { id: string; name: string; createdAt: string; createdBy: string; myRole: "Admin" | "Member" };
 export type Member = { user: User; role: "Admin" | "Member" };
